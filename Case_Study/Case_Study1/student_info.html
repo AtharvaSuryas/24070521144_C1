@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #003366;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+        th {
+            background-color: #003366;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #003366;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .back-btn:hover {
+            background-color: #002244;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Student Information Directory</h1>
+    <p>Below is the list of current students enrolled in the department.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>CS101</td>
+                <td>Alice Smith</td>
+                <td>3rd Year</td>
+                <td>alice@college.edu</td>
+            </tr>
+            <tr>
+                <td>CS102</td>
+                <td>Bob Jones</td>
+                <td>2nd Year</td>
+                <td>bob@college.edu</td>
+            </tr>
+            <tr>
+                <td>CS103</td>
+                <td>Charlie Brown</td>
+                <td>4th Year</td>
+                <td>charlie@college.edu</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="department.html" class="back-btn">Back to Department Home</a>
+
+</body>
+</html>
