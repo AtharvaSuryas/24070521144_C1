@@ -1,0 +1,87 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 1.5em;
+            color: #333;
+        }
+        p {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Palindrome Checker</h1>
+        <p>Enter a word or phrase to check if it’s a palindrome.</p>
+        <input type="text" id="input" placeholder="Type here...">
+        <button id="check">Check Palindrome</button>
+        <div id="result"></div>
+    </div>
+<script>
+    document.getElementById("check").addEventListener("click", function () {
+        const input = document.getElementById("input").value.trim();
+        const result = document.getElementById("result");
+        if (input) {
+            const norm = input.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+            const rev = norm.split("").reverse().join("");
+            if (norm === rev) {
+                result.textContent = `"${input}" is a palindrome!`;
+                result.style.color = "green";
+            } else {
+                result.textContent = `"${input}" is not a palindrome.`;
+                result.style.color = "red";
+            }
+        } else {
+            result.textContent = "Please enter some text.";
+            result.style.color = "orange";
+        }
+    });
+</script>
+</body>
+</html>
