@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <title>
+        24070521144
+    </title>
+<head>
+<style>
+  body{font-family:Arial,sans-serif;background:#f0f2f5;margin:0;padding:20px}
+  .card{background:#fff;padding:30px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1);text-align:center;width:260px}
+  h2{margin-top:0;color:#333}
+  input{padding:8px;width:80%;border:1px solid #ccc;border-radius:5px;margin-bottom:12px}
+  button{padding:8px 16px;border:none;background:#4CAF50;color:#fff;border-radius:5px;cursor:pointer}
+  button:hover{background:#45a049}
+  #r{margin-top:15px;font-weight:bold;font-size:18px;color:#222}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>Scholarship Eligibility</h2>
+Marks: <input type="number" id="m">
+<button onclick="check()">Check</button>
+<p id="r"></p>
+</div>
+
+<script>
+function check(){
+  let m = Number(document.getElementById('m').value);
+  let r;
+  if(m<50) r="Not Eligible";
+  else if(m<70) r="Bronze";
+  else if(m<85) r="Silver";
+  else if(m<95) r="Gold";
+  else r="Platinum";
+  document.getElementById('r').innerText = "Result: " + r;
+}
+</script>
+</body>
+</html>
