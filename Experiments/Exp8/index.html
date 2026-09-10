@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>24070521144</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      color: #333;
+    }
+
+    .form-container {
+      max-width: 400px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 4px;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    input.invalid, select.invalid {
+      border-color: #d9534f;
+      background-color: #fdf7f7;
+    }
+
+    input.valid, select.valid {
+      border-color: #5cb85c;
+    }
+
+    .error-text {
+      color: #d9534f;
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    .success-msg {
+      margin-top: 15px;
+      color: #5cb85c;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Gym Admission Form</h2>
+    <form id="gymForm">
+
+      <!-- Field 1: Full Name -->
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" placeholder="John Doe">
+        <div class="error-text" id="fullNameError">Name must be at least 3 characters.</div>
+      </div>
+
+      <!-- Field 2: Email -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="text" id="email" placeholder="example@mail.com">
+        <div class="error-text" id="emailError">Enter a valid email address.</div>
+      </div>
+
+      <!-- Field 3: Age -->
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" id="age" placeholder="Min age 16">
+        <div class="error-text" id="ageError">Age must be between 16 and 70.</div>
+      </div>
+
+      <!-- Field 4: Phone Number -->
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" placeholder="10-digit mobile number">
+        <div class="error-text" id="phoneError">Phone number must be exactly 10 digits.</div>
+      </div>
+
+      <!-- Field 5: Membership Plan -->
+      <div class="form-group">
+        <label for="plan">Membership Plan</label>
+        <select id="plan">
+          <option value="">-- Select a Plan --</option>
+          <option value="basic">Basic (Monthly)</option>
+          <option value="pro">Pro (6 Months)</option>
+          <option value="elite">Elite (Annual)</option>
+        </select>
+        <div class="error-text" id="planError">Please select a membership plan.</div>
+      </div>
+
+      <button type="submit" id="submitBtn" disabled>Submit Admission</button>
+      <div class="success-msg" id="successMsg">Form submitted successfully! Welcome to the Gym.</div>
+    </form>
+  </div>
+
+  <script>
+    // Access DOM Elements
+    const fullName = document.getElementById('fullName');
+    const email = document.getElementById('email');
+    const age = document.getElementById('age');
+    const phone = document.getElementById('phone');
+    const plan = document.getElementById('plan');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('gymForm');
+    const successMsg = document.getElementById('successMsg');
+
+    // Validation State Tracker
+    const validFields = {
+      fullName: false,
+      email: false,
+      age: false,
+      phone: false,
+      plan: false
+    };
+
+    // Helper Function: Update Field Style and Error Visibility
+    function updateStatus(field, errorEl, isValid) {
+      if (isValid) {
+        field.classList.remove('invalid');
+        field.classList.add('valid');
+        errorEl.style.display = 'none';
+      } else {
+        field.classList.remove('valid');
+        field.classList.add('invalid');
+        errorEl.style.display = 'block';
+      }
+      validFields[field.id] = isValid;
+      checkFormValidity();
+    }
+
+    // Check if entire form is valid to enable Submit Button
+    function checkFormValidity() {
+      const isAllValid = Object.values(validFields).every(status => status === true);
+      submitBtn.disabled = !isAllValid;
+    }
+
+    // Live Event Listeners for Validation
+    
+    // 1. Full Name Validation ('input' event)
+    fullName.addEventListener('input', () => {
+      const isValid = fullName.value.trim().length >= 3;
+      updateStatus(fullName, document.getElementById('fullNameError'), isValid);
+    });
+
+    // 2. Email Validation ('input' event)
+    email.addEventListener('input', () => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValid = emailRegex.test(email.value.trim());
+      updateStatus(email, document.getElementById('emailError'), isValid);
+    });
+
+    // 3. Age Validation ('input' event)
+    age.addEventListener('input', () => {
+      const val = parseInt(age.value, 10);
+      const isValid = !isNaN(val) && val >= 16 && val <= 70;
+      updateStatus(age, document.getElementById('ageError'), isValid);
+    });
+
+    // 4. Phone Number Validation ('input' event)
+    phone.addEventListener('input', () => {
+      const phoneRegex = /^[0-9]{10}$/;
+      const isValid = phoneRegex.test(phone.value.trim());
+      updateStatus(phone, document.getElementById('phoneError'), isValid);
+    });
+
+    // 5. Membership Plan Validation ('change' event)
+    plan.addEventListener('change', () => {
+      const isValid = plan.value !== "";
+      updateStatus(plan, document.getElementById('planError'), isValid);
+    });
+
+    // Form Submit Event
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      successMsg.style.display = 'block';
+      form.reset();
+      
+      // Reset classes
+      [fullName, email, age, phone, plan].forEach(field => {
+        field.classList.remove('valid', 'invalid');
+      });
+      
+      // Reset state
+      Object.keys(validFields).forEach(key => validFields[key] = false);
+      submitBtn.disabled = true;
+    });
+  </script>
+</body>
+</html>
