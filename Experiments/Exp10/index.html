@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24070521144</title>
+    
+    <!-- Load jQuery from CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Google Font for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --card-bg: #151c2c;
+            --primary-blue: #3b82f6;
+            --primary-blue-hover: #2563eb;
+            --primary-orange: #f97316;
+            --primary-orange-hover: #ea580c;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #1f293d;
+            --table-hover: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 12px 22px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            transition: all 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-fetch {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        .btn-fetch:hover { background-color: var(--primary-blue-hover); }
+
+        .btn-jquery {
+            background-color: var(--primary-orange);
+            color: white;
+        }
+        .btn-jquery:hover { background-color: var(--primary-orange-hover); }
+
+        .status-msg {
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+            min-height: 20px;
+            font-weight: 500;
+        }
+
+        /* Table Card & Container */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: #0f172a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        thead {
+            background-color: #1e293b;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            padding: 14px 18px;
+            font-weight: 600;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.8px;
+        }
+
+        td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            color: #e2e8f0;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background-color: var(--table-hover);
+        }
+
+        /* Modern Glowing Loader */
+        .loader-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            animation: spin 0.8s linear infinite;
+            display: none; /* Hidden by default */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 640px) {
+            .container { padding: 20px; }
+            .controls { flex-direction: column; }
+            button { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <h1>Team Members</h1>
+        <p class="subtitle">Fetch and render local JSON dataset using Fetch API or jQuery</p>
+    </div>
+
+    <div class="controls">
+        <button class="btn-fetch" onclick="loadWithFetch()">Load via Fetch Logic</button>
+        <button class="btn-jquery" onclick="loadWithJQuery()">Load via jQuery Logic</button>
+    </div>
+
+    <div id="status" class="status-msg">Click a button to load team data.</div>
+    <div class="loader-wrapper">
+        <div id="loader" class="loader"></div>
+    </div>
+
+    <div class="table-responsive">
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows injected dynamically -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // --- JAVASCRIPT LOGIC ---
+
+    const localTeamData = [
+                {
+            "id": 24070521144,
+            "name": "Atharva",
+            "email": "atharva.suryawanshi.batch2024@sitnagpur.siu.edu.in"
+        },
+        {
+            "id": 24070521146,
+            "name": "Soumya",
+            "email": "soumya.bajirao.batch2024@sitnagpur.siu.edu.in"
+        },
+        {
+            "id": 24070521211,
+            "name": "Janhavi",
+            "email": "janhavi.admane.batch2024@sitnagpur.siu.edu.in"
+        },
+        {
+            "id": 24070521143,
+            "name": "Arman",
+            "email": "arman.meshram.batch2024@sitnagpur.siu.edu.in"
+        }
+
+    ];
+
+    const tableBody = document.querySelector('#userTable tbody');
+    const statusMsg = document.getElementById('status');
+    const loader = document.getElementById('loader');
+
+    // Helper: Show/Hide Loader
+    function toggleLoader(show) {
+        loader.style.display = show ? 'block' : 'none';
+        if(show) {
+            statusMsg.textContent = "Processing data...";
+            tableBody.innerHTML = ""; // Clear existing data
+        } else {
+            statusMsg.textContent = "Data loaded successfully.";
+        }
+    }
+
+    // Helper: Generate HTML Row String
+    function createRow(user) {
+        return `
+            <tr>
+                <td>${user.id}</td>
+                <td><strong>${user.name}</strong></td>
+                <td>${user.email}</td>
+            </tr>
+        `;
+    }
+
+    /* ---------------------------------------------------------
+       METHOD 1: Simulating Fetch API with Local Data
+       --------------------------------------------------------- */
+    function loadWithFetch() {
+        toggleLoader(true);
+
+        new Promise((resolve) => {
+            setTimeout(() => resolve(localTeamData), 800); // 800ms fake delay
+        })
+        .then(data => {
+            let htmlContent = '';
+            data.forEach(user => {
+                htmlContent += createRow(user);
+            });
+            
+            tableBody.innerHTML = htmlContent;
+            toggleLoader(false);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            statusMsg.textContent = "Error processing data.";
+            toggleLoader(false);
+        });
+    }
+
+    /* ---------------------------------------------------------
+       METHOD 2: jQuery Logic with Local Data
+       --------------------------------------------------------- */
+    function loadWithJQuery() {
+        toggleLoader(true);
+
+        setTimeout(function() {
+            let htmlContent = '';
+            
+            $.each(localTeamData, function(index, user) {
+                htmlContent += createRow(user);
+            });
+
+            $('#userTable tbody').html(htmlContent);
+            toggleLoader(false);
+
+        }, 800); 
+    }
+</script>
+
+</body>
+</html>
