@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form - Case Study 7</title>
+    <!-- Google Fonts for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-body: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --focus-bg: #1e293b;
+            --error: #ef4444;
+            --success: #10b981;
+            --radius: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            background: radial-gradient(circle at top left, #1e1b4b, var(--bg-body));
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 520px;
+            background: var(--card-bg);
+            padding: 36px 32px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .form-header h2 {
+            margin: 0 0 6px 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .form-header p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="date"] {
+            width: 100%;
+            padding: 12px 14px;
+            background-color: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Focus styling updated to work cleanly with dark theme */
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Inverted date picker icon color for dark mode */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        .error {
+            display: block;
+            color: var(--error);
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .terms {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 4px;
+        }
+
+        .terms input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .terms label {
+            margin: 0;
+            font-weight: 400;
+            text-transform: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 13px;
+            margin-top: 22px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+        }
+
+        #successMessage {
+            text-align: center;
+            color: var(--success);
+            font-weight: 600;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Create an Account</h2>
+            <p>Fill out the form details below to register</p>
+        </div>
+
+        <form id="registrationForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" placeholder="Enter first name">
+                    <span class="error" id="firstNameError"></span>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" placeholder="Enter last name">
+                    <span class="error" id="lastNameError"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="example@gmail.com">
+                <span class="error" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="birthday">Birthday</label>
+                <input type="date" id="birthday">
+                <span class="error" id="birthdayError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+                <span class="error" id="passwordError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="rePassword">Re-enter Password</label>
+                <input type="password" id="rePassword" placeholder="Re-enter password">
+                <span class="error" id="rePasswordError"></span>
+            </div>
+
+            <div class="terms">
+                <input type="checkbox" id="terms">
+                <label for="terms">I agree to the Terms and Conditions</label>
+            </div>
+            <span class="error" id="termsError"></span>
+
+            <button type="submit">Register</button>
+            <p id="successMessage"></p>
+        </form>
+    </div>
+
+    <script>
+        // Form & Field DOM Access
+        const form = document.getElementById("registrationForm");
+        const firstName = document.getElementById("firstName");
+        const lastName = document.getElementById("lastName");
+        const email = document.getElementById("email");
+        const birthday = document.getElementById("birthday");
+        const password = document.getElementById("password");
+        const rePassword = document.getElementById("rePassword");
+        const terms = document.getElementById("terms");
+
+        // Error Message DOM Access
+        const firstNameError = document.getElementById("firstNameError");
+        const lastNameError = document.getElementById("lastNameError");
+        const emailError = document.getElementById("emailError");
+        const birthdayError = document.getElementById("birthdayError");
+        const passwordError = document.getElementById("passwordError");
+        const rePasswordError = document.getElementById("rePasswordError");
+        const termsError = document.getElementById("termsError");
+        const successMessage = document.getElementById("successMessage");
+
+        // Focus Events (Highlight field background)
+        const textInputs = [firstName, lastName, email, password, rePassword];
+        textInputs.forEach(input => {
+            input.addEventListener("focus", function () {
+                input.style.backgroundColor = "#1e293b";
+            });
+        });
+
+        // Change Events for Live Checks
+        email.addEventListener("change", function () {
+            const emailValue = email.value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailValue === "") {
+                emailError.textContent = "Email is required.";
+                emailError.style.color = "#ef4444";
+            } else if (!emailPattern.test(emailValue)) {
+                emailError.textContent = "Please enter a valid email address.";
+                emailError.style.color = "#ef4444";
+            } else {
+                emailError.textContent = "Valid email address.";
+                emailError.style.color = "#10b981";
+            }
+        });
+
+        password.addEventListener("change", function () {
+            if (password.value.length < 6) {
+                passwordError.textContent = "Password must contain at least 6 characters.";
+            } else {
+                passwordError.textContent = "";
+            }
+        });
+
+        rePassword.addEventListener("change", function () {
+            if (rePassword.value !== password.value) {
+                rePasswordError.textContent = "Passwords do not match.";
+            } else {
+                rePasswordError.textContent = "";
+            }
+        });
+
+        // Form Submit Event (Full Validation Check)
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Clear previous errors
+            firstNameError.textContent = "";
+            lastNameError.textContent = "";
+            emailError.textContent = "";
+            birthdayError.textContent = "";
+            passwordError.textContent = "";
+            rePasswordError.textContent = "";
+            termsError.textContent = "";
+            successMessage.textContent = "";
+
+            let isValid = true;
+
+            if (firstName.value.trim() === "") {
+                firstNameError.textContent = "First name is required.";
+                isValid = false;
+            }
+
+            if (lastName.value.trim() === "") {
+                lastNameError.textContent = "Last name is required.";
+                isValid = false;
+            }
+
+            const emailValue = email.value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailValue === "") {
+                emailError.textContent = "Email is required.";
+                emailError.style.color = "#ef4444";
+                isValid = false;
+            } else if (!emailPattern.test(emailValue)) {
+                emailError.textContent = "Please enter a valid email address.";
+                emailError.style.color = "#ef4444";
+                isValid = false;
+            }
+
+            if (birthday.value === "") {
+                birthdayError.textContent = "Birthday is required.";
+                isValid = false;
+            }
+
+            if (password.value === "") {
+                passwordError.textContent = "Password is required.";
+                isValid = false;
+            } else if (password.value.length < 6) {
+                passwordError.textContent = "Password must contain at least 6 characters.";
+                isValid = false;
+            }
+
+            if (rePassword.value === "") {
+                rePasswordError.textContent = "Please re-enter your password.";
+                isValid = false;
+            } else if (password.value !== rePassword.value) {
+                rePasswordError.textContent = "Passwords do not match.";
+                isValid = false;
+            }
+
+            if (!terms.checked) {
+                termsError.textContent = "You must agree to the Terms and Conditions.";
+                isValid = false;
+            }
+
+            if (isValid) {
+                successMessage.textContent = "Registration successful!";
+                form.reset();
+            }
+        });
+    </script>
+</body>
+</html>
