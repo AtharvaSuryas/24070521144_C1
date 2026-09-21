@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24070521144</title>
+    <style>
+        /* --- CSS VARIABLES & THEMES --- */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --card-bg: #f4f4f9;
+            --btn-bg: #007bff;
+            --btn-text: #ffffff;
+            --border-color: #cccccc;
+        }
+
+        /* Dark Theme Overrides */
+        body[data-theme="dark"] {
+            --bg-color: #1e1e1e;
+            --text-color: #f4f4f9;
+            --card-bg: #2d2d2d;
+            --btn-bg: #bb86fc;
+            --btn-text: #121212;
+            --border-color: #555555;
+        }
+
+        /* --- BASE STYLES --- */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        /* --- CONTROLS --- */
+        .controls {
+            margin: 25px 0;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 8px 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        /* --- BUTTONS --- */
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* --- INFO BOX --- */
+        .info {
+            text-align: left;
+            font-size: 14px;
+            margin-top: 20px;
+            background: rgba(128, 128, 128, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--btn-bg);
+        }
+        
+        .info ul {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>⚙️ User Preferences</h1>
+        <p>Select your preferred theme and choose how you want to save it.</p>
+
+        <div class="controls">
+            <label for="theme-select">Theme:</label>
+            <select id="theme-select">
+                <option value="light">☀️ Light Mode</option>
+                <option value="dark">🌙 Dark Mode</option>
+            </select>
+        </div>
+
+        <div class="buttons">
+            <button id="save-local">💾 Save to LocalStorage</button>
+            <button id="save-session">💾 Save to SessionStorage</button>
+        </div>
+
+        <div class="info">
+            <strong>How to test the difference:</strong>
+            <ul>
+                <li><b>LocalStorage:</b> Save a theme, completely close your browser, and reopen it. The theme will still be there.</li>
+                <li><b>SessionStorage:</b> Save a theme, close the tab/browser, and reopen it. The theme will reset to default.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const themeSelect = document.getElementById('theme-select');
+            const saveLocalBtn = document.getElementById('save-local');
+            const saveSessionBtn = document.getElementById('save-session');
+
+            // Function to apply the theme to the UI
+            function applyTheme(theme) {
+                document.body.setAttribute('data-theme', theme);
+                themeSelect.value = theme; // Sync dropdown with current theme
+            }
+
+            // 1. INITIAL LOAD: Check storage for existing preferences
+            // We check LocalStorage first, then SessionStorage.
+            const savedLocalTheme = localStorage.getItem('theme');
+            const savedSessionTheme = sessionStorage.getItem('theme');
+
+            if (savedLocalTheme) {
+                applyTheme(savedLocalTheme);
+            } else if (savedSessionTheme) {
+                applyTheme(savedSessionTheme);
+            } else {
+                applyTheme('light'); // Fallback default
+            }
+
+            // 2. LIVE PREVIEW: Update theme instantly when dropdown changes
+            themeSelect.addEventListener('change', (e) => {
+                applyTheme(e.target.value);
+            });
+
+            // 3. SAVE BUTTONS
+            saveLocalBtn.addEventListener('click', () => {
+                const selectedTheme = themeSelect.value;
+                
+                // Save to LocalStorage
+                localStorage.setItem('theme', selectedTheme);
+                applyTheme(selectedTheme);
+                
+                alert(`Saved "${selectedTheme}" to LocalStorage!\n\nThis will persist even if you close the browser.`);
+            });
+
+            saveSessionBtn.addEventListener('click', () => {
+                const selectedTheme = themeSelect.value;
+                
+                // Save to SessionStorage
+                sessionStorage.setItem('theme', selectedTheme);
+                applyTheme(selectedTheme);
+                
+                alert(`Saved "${selectedTheme}" to SessionStorage!\n\nThis will be cleared when you close this tab.`);
+            });
+        });
+    </script>
+</body>
+</html>
